@@ -1,5 +1,5 @@
 import { expect, test } from "vitest"
-import { AStar, Graph } from "../src/astar.js"
+import { AStar, Graph, GridNode } from "../src/astar.js"
 
 test("AStar.search - Examples - Minimal", function() {
     const graph = new Graph([
@@ -67,4 +67,19 @@ test("AStar.search - Examples - Use grid nodes as start/end", function() {
     const result = AStar.search(graph, start, end)
         .map(r => [r.x, r.y])
     expect(result).toEqual([[0, 1], [1, 1]])
+})
+
+test("AStar.search - Examples - Typed result", function() {
+    /** @returns {GridNode[]} */
+    function findPath() {
+        const graph = new Graph([
+            [1, 1],
+            [0, 1]
+        ])
+        return AStar.search(graph, [0, 0], [1, 1])
+    }
+
+    const result = findPath()
+    expect(result).toBeInstanceOf(Array)
+    expect(result[0]).toBeInstanceOf(GridNode)
 })

@@ -227,7 +227,7 @@ export class Graph {
     }
 }
 
-class GridNode {
+export class GridNode {
     /**
      * @param {number} x
      * @param {number} y

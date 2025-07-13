@@ -1,2 +1,2 @@
-import { AStar, Graph } from './src/astar'
-export { AStar, Graph }
+import { AStar, Graph, GridNode } from './src/astar'
+export { AStar, Graph, GridNode }
