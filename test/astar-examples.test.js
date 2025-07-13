@@ -35,6 +35,17 @@ test("AStar.search - Examples - Diagonal", function() {
     expect(result).toEqual([[1, 1], [2, 2]])
 })
 
+test("AStar.search - Examples - Closest", function() {
+    const graph = new Graph([
+        [1, 1, 1],
+        [0, 1, 1],
+        [0, 0, 0]
+    ])
+    const result = AStar.search(graph, [0, 0], [2, 2], { closest: true })
+        .map(r => [r.x, r.y])
+    expect(result).toEqual([[0, 1], [1, 1], [1, 2]])
+})
+
 test("AStar.search - Examples - Weights", function() {
     const graph = new Graph([
         [1, 1],
