@@ -16,5 +16,5 @@
     "noUnusedParameters": true,
     "strictNullChecks": true,
   },
-  "include": ["astar.js", "test/astar.test.js"]
+  "include": ["src/astar.js", "test/astar.test.js"]
 }

@@ -1,5 +1,5 @@
 import { expect, test } from "vitest"
-import { AStar, Graph } from "../astar"
+import { AStar, Graph } from "../src/astar.js"
 
 test("AStar.search - Basic Horizontal - One step down", function() {
     const result = AStar.search(new Graph([[1], [1]]), [0, 0], [1, 0])
