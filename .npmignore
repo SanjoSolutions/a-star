@@ -1,9 +1,6 @@
-benchmark
-demo
+web
 test
 .idea
 eslint.config.js
-index.html
 lint.ps1
-TODO
 tsconfig.json

@@ -1,3 +1,5 @@
+import {AStar, Graph} from "../../src/astar.js";
+
 $(function() {
     var running = false;
     $("#runall").click(function() {
@@ -14,7 +16,7 @@ $(function() {
 
         for (var i = 0; i < 1000; i++) {
             var startTime = performance ? performance.now() : new Date().getTime(),
-                result = astar.search(graph, start, end),
+                result = AStar.search(graph, start, end),
                 endTime = performance ? performance.now() : new Date().getTime();
             times = times + (endTime - startTime);
 
@@ -23,7 +25,7 @@ $(function() {
                 'Took ' + (endTime - startTime).toFixed(2) + ' milliseconds.</li>'
             );
         }
-        
+
         $("#graph").html(graph.toString());
         $("#summary").html('Average time: ' + (times / 1000).toFixed(2) + 'ms');
         $("#results").html(results.join(''));

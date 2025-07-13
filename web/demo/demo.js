@@ -1,9 +1,4 @@
-/*  demo.js http://github.com/bgrins/javascript-astar
-    MIT License
-
-    Set up the demo page for the A* Search
-*/
-/* global Graph, astar, $ */
+import {AStar, Graph} from "../../src/astar.js";
 
 var WALL = 0,
     performance = window.performance;
@@ -25,7 +20,7 @@ $(function() {
         closest: $checkClosest.is("checked")
     };
 
-    var grid = new GraphSearch($grid, opts, astar.search);
+    var grid = new GraphSearch($grid, opts, AStar);
 
     $("#btnGenerate").click(function() {
         grid.initialize();
@@ -69,7 +64,7 @@ var css = { start: "start", finish: "finish", wall: "wall", active: "active" };
 
 function GraphSearch($graph, options, implementation) {
     this.$graph = $graph;
-    this.search = implementation;
+    this.implementation = implementation;
     this.opts = $.extend({wallFrequency:0.1, debug:true, gridSize:10}, options);
     this.initialize();
 }
@@ -149,7 +144,7 @@ GraphSearch.prototype.cellClicked = function($end) {
 
     var sTime = performance ? performance.now() : new Date().getTime();
 
-    var path = this.search(this.graph, start, end, {
+    var path = this.implementation.search(this.graph, start, end, {
         closest: this.opts.closest
     });
     var fTime = performance ? performance.now() : new Date().getTime(),
