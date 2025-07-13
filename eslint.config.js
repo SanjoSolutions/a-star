@@ -9,6 +9,11 @@ export default defineConfig([
     jsdoc.configs["flat/recommended"],
     {
         rules: {
+            // Eslint
+            "prefer-template": "error",
+            "class-methods-use-this": "error",
+            "no-shadow": "error",
+            "no-negated-condition": "error",
             // Neostandard
             "curly": ["error", "multi-or-nest"],
             "object-shorthand": ["error", "never"],
