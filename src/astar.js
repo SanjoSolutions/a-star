@@ -242,6 +242,7 @@ export class GridNode {
         this.h = 0
         this.visited = false
         this.closed = false
+        /** @type {GridNode|null} */
         this.parent = null
     }
 
