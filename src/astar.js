@@ -92,10 +92,10 @@ export class AStar {
         let curr = node
         const path = []
         while (curr.parent) {
-            path.unshift(curr)
+            path.push(curr)
             curr = curr.parent
         }
-        return path
+        return path.reverse()
     }
 
     /** See list of heuristics: http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html */
