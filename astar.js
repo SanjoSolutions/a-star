@@ -2,8 +2,8 @@ export class AStar {
     /**
      * Perform an A* Search on a graph given a start and end node.
      * @param {Graph} graph
-     * @param {[number, number]} start
-     * @param {[number, number]} end
+     * @param {GridNode|[number, number]} start
+     * @param {GridNode|[number, number]} end
      * @param {object} [options]
      * @param {boolean} [options.closest] Specifies whether to return the path to the closest node if the target is unreachable.
      * @param {Function} [options.heuristic] Heuristic function (see astar.heuristics).
@@ -11,26 +11,26 @@ export class AStar {
      */
     static search(graph, start, end, options) {
         graph.cleanDirty()
-        const startNode = graph.grid[start[0]][start[1]]
-        const endNode = graph.grid[end[0]][end[1]]
+        start = start instanceof GridNode ? start : graph.grid[start[0]][start[1]]
+        end = end instanceof GridNode ? end : graph.grid[end[0]][end[1]]
         options = options || {}
         const heuristic = options.heuristic || AStar.heuristics.manhattan
         const closest = options.closest || false
 
         const openHeap = new BinaryHeap()
-        let closestNode = startNode // set the start node to be the closest if required
+        let closestNode = start // set the start node to be the closest if required
 
-        startNode.h = heuristic(startNode, endNode)
-        graph.markDirty(startNode)
+        start.h = heuristic(start, end)
+        graph.markDirty(start)
 
-        openHeap.push(startNode)
+        openHeap.push(start)
 
         while (openHeap.size() > 0) {
             // Grab the lowest f(x) to process next.  Heap keeps this sorted for us.
             const currentNode = openHeap.pop()
 
             // End case -- result has been found, return the traced path.
-            if (currentNode === endNode)
+            if (currentNode === end)
                 return this.#pathTo(currentNode)
 
             // Normal case -- move currentNode from open to closed, process each of its neighbors.
@@ -56,7 +56,7 @@ export class AStar {
                     // Found an optimal (so far) path to this node.  Take score for node to see how good it is.
                     neighbor.visited = true
                     neighbor.parent = currentNode
-                    neighbor.h = neighbor.h || heuristic(neighbor, endNode)
+                    neighbor.h = neighbor.h || heuristic(neighbor, end)
                     neighbor.g = gScore
                     neighbor.f = neighbor.g + neighbor.h
                     graph.markDirty(neighbor)
