@@ -1,68 +1,66 @@
-# javascript-astar
+# javascript-astarf (fork of bgrins/javascript-astar)
 
-## An implementation of the A* Search Algorithm in JavaScript
+### About
+
+An implementation of the A* search/pathfinding algorithm in JavaScript. Supports diagonal movement and weighted nodes.
 
 See a demo at http://www.briangrinstead.com/files/astar/
 
-## Sample Usage
-
-If you want just the A* search code (not the demo visualization), use code like this http://gist.github.com/581352
-```js
-<script type='text/javascript' src='astar.js'></script>
-<script type='text/javascript'>
-	var graph = new Graph([
-		[1,1,1,1],
-		[0,1,1,0],
-		[0,0,1,1]
-	]);
-	var start = graph.grid[0][0];
-	var end = graph.grid[1][2];
-	var result = astar.search(graph, start, end);
-	// result is an array containing the shortest path
-	var graphDiagonal = new Graph([
-		[1,1,1,1],
-		[0,1,1,0],
-		[0,0,1,1]
-	], { diagonal: true });
-	
-	var start = graphDiagonal.grid[0][0];
-	var end = graphDiagonal.grid[1][2];
-	var resultWithDiagonals = astar.search(graphDiagonal, start, end, { heuristic: astar.heuristics.diagonal });
-	// Weight can easily be added by increasing the values within the graph, and where 0 is infinite (a wall)
-	var graphWithWeight = new Graph([
-		[1,1,2,30],
-		[0,4,1.3,0],
-		[0,0,5,1]
-	]);
-	var startWithWeight = graphWithWeight.grid[0][0];
-	var endWithWeight = graphWithWeight.grid[1][2];
-	var resultWithWeight = astar.search(graphWithWeight, startWithWeight, endWithWeight);
-	// resultWithWeight is an array containing the shortest path taking into account the weight of a node
-</script>
-```
-A few notes about weight values:
-
-1. A weight of 0 denotes a wall.
-2. A weight cannot be negative.
-3. A weight cannot be between 0 and 1 (exclusive).
-4. A weight can contain decimal values (greater than 1).
-
-### Original (slower) implementation
-
-The original version of the algorithm used a list, and was a bit clearer but much slower.  It was based off the [original blog post](http://www.briangrinstead.com/blog/astar-search-algorithm-in-javascript).  The code is available at: https://github.com/bgrins/javascript-astar/tree/0.0.1/original-implementation.
-
-The newest version of the algorithm using a Binary Heap.  It is quite faster than the original.
-http://www.briangrinstead.com/blog/astar-search-algorithm-in-javascript-updated
-Binary Heap taken from http://eloquentjavascript.net/appendix2.html (license: http://creativecommons.org/licenses/by/3.0/)
+This is a fork of [bgrins/javascript-astar](https://github.com/bgrins/javascript-astar) which uses modern JavaScript.
 
 
-## Running the test suite
+### How to use
 
-[![Build Status](https://travis-ci.org/bgrins/javascript-astar.png?branch=master)](https://travis-ci.org/bgrins/javascript-astar)
+**Get started**
 
-If you don't have grunt installed, follow the [grunt getting started guide](http://gruntjs.com/getting-started) first.
+1. Npm install
+   ```bash
+   npm install javascript-astarf
+   ```
+2. Minimal example
+    ```javascript
+    // Module import
+    import { AStar, Graph } from "javascript-astarf"
+    
+    // Create a new graph with a grid
+    // - Take note 0 = wall, 1 = walkable, higher than 1 makes it worse
+    // - Take note the lower left 0-value is x=1, y=0. Like you would access a 2d array[x][y].
+    const graph = new Graph([
+        [1, 1],
+        [0, 1],
+    ])
+    
+    // Search for path
+    const result = AStar.search(graph, [0, 0], [1, 1])
+    // result.length == 2
+    // result[0] == { x: 1, y: 0, weight: 1 }
+    // result[1] == { x: 1, y: 1, weight: 1 }
+    ```
 
-Pull down the project, then run:
 
-		npm install
-		grunt
+**Weights**
+
+Se the [astar-examples.test.js](./test/astar-examples.test.js) file for example
+
+* A weight of 0 denotes a wall.
+* A weight cannot be negative.
+* A weight cannot be between 0 and 1 (exclusive).
+* A weight can contain decimal values (greater than 1).
+
+
+**Examples**
+
+Se the [astar-examples.test.js](./test/astar-examples.test.js) file for examples on how to use the library
+
+
+### Development
+
+**Setup**
+
+1. Install node 22+
+2. `npm install`
+3. `npm run test`
+
+**Open demo page**
+
+Simply open the `web/index.html` file in your browser.
