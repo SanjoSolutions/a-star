@@ -1,20 +1,17 @@
 {
-  "name": "javascript-astar",
+  "name": "javascript-astarf",
   "version": "0.4.1",
-  "description": "astar search algorithm in JavaScript",
-  "main": "astar.js",
+  "description": "AStar pathfinding search algorithm written in JavaScript, forked from bgrins/javascript-astar",
+  "type": "module",
   "repository": {
     "type": "git",
-    "url": "git://github.com/bgrins/javascript-astar.git"
+    "url": "git://github.com/Andrioden/javascript-astarf.git"
   },
-  "type": "module",
-  "keywords": [],
   "author": "Brian Grinstead",
+  "contributors": [
+    {"name":"André S. Hansen","url":"https://github.com/Andrioden"}
+  ],
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/bgrins/javascript-astar/issues"
-  },
-  "homepage": "http://bgrins.github.io/javascript-astar",
   "scripts": {
     "test": "vitest"
   },
