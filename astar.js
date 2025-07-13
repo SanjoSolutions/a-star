@@ -9,7 +9,6 @@ export class AStar {
      * @param {Function} [options.heuristic] Heuristic function (see astar.heuristics).
      * @returns {GridNode[]}
      */
-    // eslint-disable-next-line sonarjs/cognitive-complexity
     static search(graph, start, end, options) {
         graph.cleanDirty()
         const startNode = graph.grid[start[0]][start[1]]
@@ -169,7 +168,6 @@ export class Graph {
      * @param {GridNode} node
      * @returns {GridNode[]}
      */
-    // eslint-disable-next-line sonarjs/cognitive-complexity
     neighbors(node) {
         const ret = []
         const x = node.x
@@ -355,7 +353,6 @@ class BinaryHeap {
     }
 
     /** @param {number} n */
-    // eslint-disable-next-line sonarjs/cognitive-complexity
     bubbleUp(n) {
         // Look up the target element and its score.
         const length = this.content.length
