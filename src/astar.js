@@ -6,7 +6,7 @@ export class AStar {
      * @param {GridNode|[number, number]} end
      * @param {object} [options]
      * @param {boolean} [options.closest] Specifies whether to return the path to the closest node if the target is unreachable.
-     * @param {Function} [options.heuristic] Heuristic function (see astar.heuristics).
+     * @param {Function} [options.heuristic] Heuristic function (see AStar.heuristics).
      * @returns {GridNode[]}
      */
     static search(graph, start, end, options) {
@@ -53,7 +53,7 @@ export class AStar {
                 const beenVisited = neighbor.visited
 
                 if (!beenVisited || gScore < neighbor.g) {
-                    // Found an optimal (so far) path to this node.  Take score for node to see how good it is.
+                    // Found an optimal (so far) path to this node. Take score for node to see how good it is.
                     neighbor.visited = true
                     neighbor.parent = currentNode
                     neighbor.h = neighbor.h || heuristic(neighbor, end)
