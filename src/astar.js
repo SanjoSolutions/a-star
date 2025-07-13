@@ -14,7 +14,7 @@ export class AStar {
         start = start instanceof GridNode ? start : graph.grid[start[0]][start[1]]
         end = end instanceof GridNode ? end : graph.grid[end[0]][end[1]]
         options = options || {}
-        const heuristic = options.heuristic || (graph.diagonal ? AStar.heuristics.diagonal : AStar.heuristics.manhattan)
+        const heuristic = options.heuristic || (graph.diagonal ? this.heuristics.diagonal : this.heuristics.manhattan)
         const closest = options.closest || false
 
         const openHeap = new BinaryHeap()
