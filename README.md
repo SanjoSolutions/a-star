@@ -13,7 +13,7 @@ This is a improved and modernized fork of [bgrins/javascript-astar](https://gith
 
 **Get started**
 
-1. Npm install
+1. Npm install ([link](https://www.npmjs.com/package/javascript-astarf))
    ```bash
    npm install javascript-astarf
    ```
@@ -55,12 +55,19 @@ Se the [astar-examples.test.js](./test/astar-examples.test.js) file for example
 
 ## Development
 
+
 **Setup**
 
 1. Install node 22+
 2. `npm install`
 3. `npm run test`
 
+
 **Open demo page**
 
 Simply open the `web/index.html` file in your browser.
+
+
+**Lint code**
+
+Run `lint.ps1` on windows
