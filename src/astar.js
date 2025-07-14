@@ -35,6 +35,7 @@ export class AStar {
 
             // Normal case -- move currentNode from open to closed, process each of its neighbors.
             currentNode.closed = true
+            graph.markDirty(currentNode)
 
             // Find all neighbors for the current node.
             const neighbors = graph.neighbors(currentNode)
@@ -139,6 +140,7 @@ export class Graph {
         this.diagonal = !!options.diagonal
         /** @type {GridNode[][]} */
         this.grid = []
+        /** @type {GridNode[]} */
         this.dirtyNodes = []
         for (let x = 0; x < gridIn.length; x++) {
             this.grid[x] = []
