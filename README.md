@@ -6,7 +6,7 @@ An implementation of the A* search/pathfinding algorithm in JavaScript. Supports
 
 See a demo at http://www.briangrinstead.com/files/astar/
 
-This is a fork of [bgrins/javascript-astar](https://github.com/bgrins/javascript-astar) which uses modern JavaScript.
+This is a improved and modernized fork of [bgrins/javascript-astar](https://github.com/bgrins/javascript-astar).
 
 
 ## How to use
