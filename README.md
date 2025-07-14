@@ -1,6 +1,6 @@
 # javascript-astarf (fork of bgrins/javascript-astar)
 
-### About
+## About
 
 An implementation of the A* search/pathfinding algorithm in JavaScript. Supports diagonal movement and weighted nodes.
 
@@ -9,7 +9,7 @@ See a demo at http://www.briangrinstead.com/files/astar/
 This is a fork of [bgrins/javascript-astar](https://github.com/bgrins/javascript-astar) which uses modern JavaScript.
 
 
-### How to use
+## How to use
 
 **Get started**
 
@@ -53,7 +53,7 @@ Se the [astar-examples.test.js](./test/astar-examples.test.js) file for example
 Se the [astar-examples.test.js](./test/astar-examples.test.js) file for examples on how to use the library
 
 
-### Development
+## Development
 
 **Setup**
 
