@@ -35,6 +35,8 @@ export class AStar {
 
             // Normal case -- move currentNode from open to closed, process each of its neighbors.
             currentNode.closed = true
+            // currentNode should eventually be marked as dirty by the neighbor loop
+            // however this issue indicate it isn't for an unknown edge-case: https://github.com/bgrins/javascript-astar/issues/52
             graph.markDirty(currentNode)
 
             // Find all neighbors for the current node.
