@@ -38,6 +38,11 @@ This is a improved and modernized fork of [bgrins/javascript-astar](https://gith
     ```
 
 
+**Examples**
+
+Se the [astar-examples.test.js](./test/astar-examples.test.js) file for further examples on how to use this library
+
+
 **Weights**
 
 Se the [astar-examples.test.js](./test/astar-examples.test.js) file for example
@@ -46,11 +51,6 @@ Se the [astar-examples.test.js](./test/astar-examples.test.js) file for example
 * A weight cannot be negative.
 * A weight cannot be between 0 and 1 (exclusive).
 * A weight can contain decimal values (greater than 1).
-
-
-**Examples**
-
-Se the [astar-examples.test.js](./test/astar-examples.test.js) file for examples on how to use the library
 
 
 ## Development
