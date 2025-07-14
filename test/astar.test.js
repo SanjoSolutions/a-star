@@ -71,21 +71,36 @@ test("AStar.search - Closest - End node was reachable", function() {
 })
 
 test("AStar.search - Multiple runs on the same graph", function() {
-    // Make sure that start / end position are re-opened between searches
-    // See https://github.com/bgrins/javascript-astar/issues/43
     const graph = new Graph([
-        [1, 1, 0, 1],
+        [1, 1, 1, 1],
         [0, 1, 1, 0],
         [0, 0, 1, 1]
     ])
 
+    // Initial
     const result1 = AStar.search(graph, [0, 0], [2, 3])
         .map(r => [r.x, r.y])
     expect(result1).toEqual([[0, 1], [1, 1], [1, 2], [2, 2], [2, 3]])
 
-    const result2 = AStar.search(graph, [2, 3], [0, 0])
+    // Initial repeated
+    const result2 = AStar.search(graph, [0, 0], [2, 3])
         .map(r => [r.x, r.y])
-    expect(result2).toEqual([[2, 2], [1, 2], [1, 1], [0, 1], [0, 0]])
+    expect(result2).toEqual([[0, 1], [1, 1], [1, 2], [2, 2], [2, 3]])
+
+    // Back to start
+    const result3 = AStar.search(graph, [2, 3], [0, 0])
+        .map(r => [r.x, r.y])
+    expect(result3).toEqual([[2, 2], [1, 2], [0, 2], [0, 1], [0, 0]])
+
+    // To a spot that has been attempted
+    const result4 = AStar.search(graph, [0, 0], [0, 3])
+        .map(r => [r.x, r.y])
+    expect(result4).toEqual([[0, 1], [0, 2], [0, 3]])
+
+    // To a spot that has been attempted
+    const result5 = AStar.search(graph, [0, 0], [1, 1])
+        .map(r => [r.x, r.y])
+    expect(result5).toEqual([[0, 1], [1, 1]])
 })
 
 test("GridNode - getCost", function() {
