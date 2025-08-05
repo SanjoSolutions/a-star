@@ -11,10 +11,15 @@ export class AStar {
      */
     static search(graph, start, end, options) {
         graph.cleanDirty()
-        start = start instanceof GridNode ? start : graph.grid[start[0]][start[1]]
-        end = end instanceof GridNode ? end : graph.grid[end[0]][end[1]]
+        start =
+            start instanceof GridNode ? start : graph.grid[start[1]][start[0]]
+        end = end instanceof GridNode ? end : graph.grid[end[1]][end[0]]
         options = options || {}
-        const heuristic = options.heuristic || (graph.diagonal ? this.heuristics.diagonal : this.heuristics.manhattan)
+        const heuristic =
+            options.heuristic ||
+            (graph.diagonal
+                ? this.heuristics.diagonal
+                : this.heuristics.manhattan)
         const closest = options.closest || false
 
         const openHeap = new BinaryHeap()
@@ -30,8 +35,7 @@ export class AStar {
             const currentNode = openHeap.pop()
 
             // End case -- result has been found, return the traced path.
-            if (currentNode === end)
-                return this.#pathTo(currentNode)
+            if (currentNode === end) return this.#pathTo(currentNode)
 
             // Normal case -- move currentNode from open to closed, process each of its neighbors.
             currentNode.closed = true
@@ -66,22 +70,23 @@ export class AStar {
                     if (closest) {
                         // If the neighbour is closer than the current closestNode or if it's equally close but has
                         // a cheaper path than the current closest node then it becomes the closest node
-                        if (neighbor.h < closestNode.h || (neighbor.h === closestNode.h && neighbor.g < closestNode.g))
+                        if (
+                            neighbor.h < closestNode.h ||
+                            (neighbor.h === closestNode.h &&
+                                neighbor.g < closestNode.g)
+                        )
                             closestNode = neighbor
                     }
 
                     // Already seen the node, but since it has been rescored we need to reorder it in the heap
-                    if (beenVisited)
-                        openHeap.rescoreElement(neighbor)
+                    if (beenVisited) openHeap.rescoreElement(neighbor)
                     // Pushing to heap will put it in proper place based on the 'f' value.
-                    else
-                        openHeap.push(neighbor)
+                    else openHeap.push(neighbor)
                 }
             }
         }
 
-        if (closest)
-            return this.#pathTo(closestNode)
+        if (closest) return this.#pathTo(closestNode)
 
         // No result was found - empty array signifies failure to find path.
         return []
@@ -108,7 +113,7 @@ export class AStar {
          * @param {GridNode} pos1
          * @returns {number}
          */
-        manhattan: function(pos0, pos1) {
+        manhattan: function (pos0, pos1) {
             const d1 = Math.abs(pos1.x - pos0.x)
             const d2 = Math.abs(pos1.y - pos0.y)
             return d1 + d2
@@ -118,13 +123,13 @@ export class AStar {
          * @param {GridNode} pos1
          * @returns {number}
          */
-        diagonal: function(pos0, pos1) {
+        diagonal: function (pos0, pos1) {
             const D = 1
             const D2 = 1.41421 // Math.sqrt(2)
             const d1 = Math.abs(pos1.x - pos0.x)
             const d2 = Math.abs(pos1.y - pos0.y)
-            return (D * (d1 + d2)) + ((D2 - (2 * D)) * Math.min(d1, d2))
-        }
+            return D * (d1 + d2) + (D2 - 2 * D) * Math.min(d1, d2)
+        },
     }
 }
 
@@ -144,16 +149,15 @@ export class Graph {
         this.grid = []
         /** @type {GridNode[]} */
         this.dirtyNodes = []
-        for (let x = 0; x < gridIn.length; x++) {
-            this.grid[x] = []
-            for (let y = 0, row = gridIn[x]; y < row.length; y++) {
-                const node = new GridNode(x, y, row[y])
-                this.grid[x][y] = node
+        for (let y = 0; y < gridIn.length; y++) {
+            this.grid[y] = []
+            for (let x = 0, row = gridIn[y]; x < row.length; x++) {
+                const node = new GridNode(x, y, row[x])
+                this.grid[y][x] = node
                 this.nodes.push(node)
             }
         }
-        for (let i = 0; i < this.nodes.length; i++)
-            this.nodes[i].clean()
+        for (let i = 0; i < this.nodes.length; i++) this.nodes[i].clean()
     }
 
     cleanDirty() {
@@ -179,37 +183,29 @@ export class Graph {
         const grid = this.grid
 
         // West
-        if (grid[x - 1] && grid[x - 1][y])
-            ret.push(grid[x - 1][y])
+        if (grid[y] && grid[y][x - 1]) ret.push(grid[y][x - 1])
 
         // East
-        if (grid[x + 1] && grid[x + 1][y])
-            ret.push(grid[x + 1][y])
+        if (grid[y] && grid[y][x + 1]) ret.push(grid[y][x + 1])
 
         // South
-        if (grid[x] && grid[x][y - 1])
-            ret.push(grid[x][y - 1])
+        if (grid[y - 1] && grid[y - 1][x]) ret.push(grid[y - 1][x])
 
         // North
-        if (grid[x] && grid[x][y + 1])
-            ret.push(grid[x][y + 1])
+        if (grid[y + 1] && grid[y + 1][x]) ret.push(grid[y + 1][x])
 
         if (this.diagonal) {
             // Southwest
-            if (grid[x - 1] && grid[x - 1][y - 1])
-                ret.push(grid[x - 1][y - 1])
+            if (grid[y - 1] && grid[y - 1][x - 1]) ret.push(grid[y - 1][x - 1])
 
             // Southeast
-            if (grid[x + 1] && grid[x + 1][y - 1])
-                ret.push(grid[x + 1][y - 1])
+            if (grid[y - 1] && grid[y - 1][x + 1]) ret.push(grid[y - 1][x + 1])
 
             // Northwest
-            if (grid[x - 1] && grid[x - 1][y + 1])
-                ret.push(grid[x - 1][y + 1])
+            if (grid[y + 1] && grid[y + 1][x - 1]) ret.push(grid[y + 1][x - 1])
 
             // Northeast
-            if (grid[x + 1] && grid[x + 1][y + 1])
-                ret.push(grid[x + 1][y + 1])
+            if (grid[y + 1] && grid[y + 1][x + 1]) ret.push(grid[y + 1][x + 1])
         }
 
         return ret
@@ -219,11 +215,10 @@ export class Graph {
     toString() {
         const graphString = []
         const nodes = this.grid
-        for (let x = 0; x < nodes.length; x++) {
+        for (let y = 0; y < nodes.length; y++) {
             const rowDebug = []
-            const row = nodes[x]
-            for (let y = 0; y < row.length; y++)
-                rowDebug.push(row[y].weight)
+            const row = nodes[y]
+            for (let x = 0; x < row.length; x++) rowDebug.push(row[x].weight)
 
             graphString.push(rowDebug.join(" "))
         }
@@ -270,7 +265,11 @@ export class GridNode {
      */
     getCost(fromNeighbor) {
         // Take diagonal weight into consideration.
-        if (fromNeighbor && fromNeighbor.x !== this.x && fromNeighbor.y !== this.y)
+        if (
+            fromNeighbor &&
+            fromNeighbor.x !== this.x &&
+            fromNeighbor.y !== this.y
+        )
             return this.weight * 1.41421
 
         return this.weight
@@ -313,8 +312,7 @@ class BinaryHeap {
         const result = this.content[0]
         // Get the element at the end of the array.
         const end = this.content.pop()
-        if (!end)
-            throw new Error("Heap is empty, cannot pop element.")
+        if (!end) throw new Error("Heap is empty, cannot pop element.")
         // If there are any elements left, put the end element at the
         // start, and let it bubble up.
         if (this.content.length > 0) {
@@ -352,8 +350,7 @@ class BinaryHeap {
                 n = parentN
             }
             // Found a parent that is less, no need to sink any further.
-            else
-                break
+            else break
         }
     }
 
@@ -378,8 +375,7 @@ class BinaryHeap {
                 child1Score = this.scoreFunction(child1)
 
                 // If the score is less than our element's, we need to swap.
-                if (child1Score < elemScore)
-                    swap = child1N
+                if (child1Score < elemScore) swap = child1N
             }
 
             // Do the same checks for the other child.
@@ -391,8 +387,7 @@ class BinaryHeap {
             }
 
             // If the element needs to be moved, swap it, and continue. Otherwise, we are done.
-            if (swap === null)
-                break
+            if (swap === null) break
             else {
                 this.content[n] = this.content[swap]
                 this.content[swap] = element
