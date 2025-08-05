@@ -1,7 +1,7 @@
 export class AStar {
     /**
-     * Perform an A* Search on a graph given a start and end node.
-     * @param {Graph} graph
+     * Perform an A* Search on a grid given a start and end node.
+     * @param {Grid} grid
      * @param {GridNode|[number, number]} start
      * @param {GridNode|[number, number]} end
      * @param {object} [options]
@@ -9,15 +9,15 @@ export class AStar {
      * @param {Function} [options.heuristic] Heuristic function (see AStar.heuristics).
      * @returns {GridNode[]}
      */
-    static search(graph, start, end, options) {
-        graph.cleanDirty()
+    static search(grid, start, end, options) {
+        grid.cleanDirty()
         start =
-            start instanceof GridNode ? start : graph.grid[start[1]][start[0]]
-        end = end instanceof GridNode ? end : graph.grid[end[1]][end[0]]
+            start instanceof GridNode ? start : grid.grid[start[1]][start[0]]
+        end = end instanceof GridNode ? end : grid.grid[end[1]][end[0]]
         options = options || {}
         const heuristic =
             options.heuristic ||
-            (graph.diagonal
+            (grid.diagonal
                 ? this.heuristics.diagonal
                 : this.heuristics.manhattan)
         const closest = options.closest || false
@@ -26,7 +26,7 @@ export class AStar {
         let closestNode = start // set the start node to be the closest if required
 
         start.h = heuristic(start, end)
-        graph.markDirty(start)
+        grid.markDirty(start)
 
         openHeap.push(start)
 
@@ -41,10 +41,10 @@ export class AStar {
             currentNode.closed = true
             // currentNode should eventually be marked as dirty by the neighbor loop
             // however this issue indicate it isn't for an unknown edge-case: https://github.com/bgrins/javascript-astar/issues/52
-            graph.markDirty(currentNode)
+            grid.markDirty(currentNode)
 
             // Find all neighbors for the current node.
-            const neighbors = graph.neighbors(currentNode)
+            const neighbors = grid.neighbors(currentNode)
 
             for (let i = 0, il = neighbors.length; i < il; ++i) {
                 const neighbor = neighbors[i]
@@ -66,7 +66,7 @@ export class AStar {
                     neighbor.h = neighbor.h || heuristic(neighbor, end)
                     neighbor.g = gScore
                     neighbor.f = neighbor.g + neighbor.h
-                    graph.markDirty(neighbor)
+                    grid.markDirty(neighbor)
                     if (closest) {
                         // If the neighbour is closer than the current closestNode or if it's equally close but has
                         // a cheaper path than the current closest node then it becomes the closest node
@@ -133,9 +133,9 @@ export class AStar {
     }
 }
 
-export class Graph {
+export class Grid {
     /**
-     * A graph memory structure
+     * A grid memory structure
      * @param {Array} gridIn 2D array of input weights
      * @param {object} [options]
      * @param {boolean} [options.diagonal] Specifies whether diagonal moves are allowed
@@ -213,16 +213,16 @@ export class Graph {
 
     /** @returns {string} */
     toString() {
-        const graphString = []
+        const gridString = []
         const nodes = this.grid
         for (let y = 0; y < nodes.length; y++) {
             const rowDebug = []
             const row = nodes[y]
             for (let x = 0; x < row.length; x++) rowDebug.push(row[x].weight)
 
-            graphString.push(rowDebug.join(" "))
+            gridString.push(rowDebug.join(" "))
         }
-        return graphString.join("\n")
+        return gridString.join("\n")
     }
 }
 

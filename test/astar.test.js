@@ -1,15 +1,16 @@
 import { expect, test } from "vitest"
-import { AStar, Graph } from "../src/astar.js"
+import { AStar, Grid } from "../src/astar.js"
 
 test("AStar.search - Basic Horizontal - One step down", function () {
-    const result = AStar.search(new Graph([[1, 1]]), [0, 0], [1, 0]).map(
-        (r) => [r.x, r.y]
-    )
+    const result = AStar.search(new Grid([[1, 1]]), [0, 0], [1, 0]).map((r) => [
+        r.x,
+        r.y,
+    ])
     expect(result).toEqual([[1, 0]])
 })
 
 test("AStar.search - Basic Horizontal - Two steps down", function () {
-    const result = AStar.search(new Graph([[1, 1, 1]]), [0, 0], [2, 0]).map(
+    const result = AStar.search(new Grid([[1, 1, 1]]), [0, 0], [2, 0]).map(
         (r) => [r.x, r.y]
     )
     expect(result).toEqual([
@@ -19,7 +20,7 @@ test("AStar.search - Basic Horizontal - Two steps down", function () {
 })
 
 test("AStar.search - Basic Horizontal - Three steps down", function () {
-    const result = AStar.search(new Graph([[1, 1, 1, 1]]), [0, 0], [3, 0]).map(
+    const result = AStar.search(new Grid([[1, 1, 1, 1]]), [0, 0], [3, 0]).map(
         (r) => [r.x, r.y]
     )
     expect(result).toEqual([
@@ -30,14 +31,14 @@ test("AStar.search - Basic Horizontal - Three steps down", function () {
 })
 
 test("AStar.search - Basic Vertical - One step across", function () {
-    const result = AStar.search(new Graph([[1], [1]]), [0, 0], [0, 1]).map(
+    const result = AStar.search(new Grid([[1], [1]]), [0, 0], [0, 1]).map(
         (r) => [r.x, r.y]
     )
     expect(result).toEqual([[0, 1]])
 })
 
 test("AStar.search - Basic Vertical - Two steps across", function () {
-    const result = AStar.search(new Graph([[1], [1], [1]]), [0, 0], [0, 2]).map(
+    const result = AStar.search(new Grid([[1], [1], [1]]), [0, 0], [0, 2]).map(
         (r) => [r.x, r.y]
     )
     expect(result).toEqual([
@@ -48,7 +49,7 @@ test("AStar.search - Basic Vertical - Two steps across", function () {
 
 test("AStar.search - Basic Vertical - Three steps across", function () {
     const result = AStar.search(
-        new Graph([[1], [1], [1], [1]]),
+        new Grid([[1], [1], [1], [1]]),
         [0, 0],
         [0, 3]
     ).map((r) => [r.x, r.y])
@@ -60,13 +61,13 @@ test("AStar.search - Basic Vertical - Three steps across", function () {
 })
 
 test("AStar.search - Closest - Path to closest node", function () {
-    const graph = new Graph([
+    const grid = new Grid([
         [1, 0, 0],
         [1, 1, 0],
         [1, 1, 1],
         [1, 0, 1],
     ])
-    const result = AStar.search(graph, [0, 0], [2, 1], { closest: true }).map(
+    const result = AStar.search(grid, [0, 0], [2, 1], { closest: true }).map(
         (r) => [r.x, r.y]
     )
     expect(result).toEqual([
@@ -76,26 +77,26 @@ test("AStar.search - Closest - Path to closest node", function () {
 })
 
 test("AStar.search - Closest - Start node was closest node", function () {
-    const graph = new Graph([
+    const grid = new Grid([
         [1, 0, 0],
         [0, 1, 0],
         [1, 1, 1],
         [1, 0, 1],
     ])
-    const result = AStar.search(graph, [0, 0], [2, 1], { closest: true }).map(
+    const result = AStar.search(grid, [0, 0], [2, 1], { closest: true }).map(
         (r) => [r.x, r.y]
     )
     expect(result).toEqual([])
 })
 
 test("AStar.search - Closest - End node was reachable", function () {
-    const graph = new Graph([
+    const grid = new Grid([
         [1, 0, 0],
         [1, 1, 1],
         [1, 1, 1],
         [1, 0, 1],
     ])
-    const result = AStar.search(graph, [0, 0], [2, 1], { closest: true }).map(
+    const result = AStar.search(grid, [0, 0], [2, 1], { closest: true }).map(
         (r) => [r.x, r.y]
     )
     expect(result).toEqual([
@@ -105,8 +106,8 @@ test("AStar.search - Closest - End node was reachable", function () {
     ])
 })
 
-test("AStar.search - Multiple runs on the same graph", function () {
-    const graph = new Graph([
+test("AStar.search - Multiple runs on the same grid", function () {
+    const grid = new Grid([
         [1, 0, 0],
         [1, 1, 0],
         [1, 1, 1],
@@ -114,7 +115,7 @@ test("AStar.search - Multiple runs on the same graph", function () {
     ])
 
     // Initial
-    const result1 = AStar.search(graph, [0, 0], [2, 3]).map((r) => [r.x, r.y])
+    const result1 = AStar.search(grid, [0, 0], [2, 3]).map((r) => [r.x, r.y])
     expect(result1).toEqual([
         [0, 1],
         [1, 1],
@@ -124,7 +125,7 @@ test("AStar.search - Multiple runs on the same graph", function () {
     ])
 
     // Initial repeated
-    const result2 = AStar.search(graph, [0, 0], [2, 3]).map((r) => [r.x, r.y])
+    const result2 = AStar.search(grid, [0, 0], [2, 3]).map((r) => [r.x, r.y])
     expect(result2).toEqual([
         [0, 1],
         [1, 1],
@@ -134,7 +135,7 @@ test("AStar.search - Multiple runs on the same graph", function () {
     ])
 
     // Back to start
-    const result3 = AStar.search(graph, [2, 3], [0, 0]).map((r) => [r.x, r.y])
+    const result3 = AStar.search(grid, [2, 3], [0, 0]).map((r) => [r.x, r.y])
     expect(result3).toEqual([
         [2, 2],
         [1, 2],
@@ -144,7 +145,7 @@ test("AStar.search - Multiple runs on the same graph", function () {
     ])
 
     // To a spot that has been attempted
-    const result4 = AStar.search(graph, [0, 0], [0, 3]).map((r) => [r.x, r.y])
+    const result4 = AStar.search(grid, [0, 0], [0, 3]).map((r) => [r.x, r.y])
     expect(result4).toEqual([
         [0, 1],
         [0, 2],
@@ -152,7 +153,7 @@ test("AStar.search - Multiple runs on the same graph", function () {
     ])
 
     // To a spot that has been attempted
-    const result5 = AStar.search(graph, [0, 0], [1, 1]).map((r) => [r.x, r.y])
+    const result5 = AStar.search(grid, [0, 0], [1, 1]).map((r) => [r.x, r.y])
     expect(result5).toEqual([
         [0, 1],
         [1, 1],
@@ -160,7 +161,7 @@ test("AStar.search - Multiple runs on the same graph", function () {
 })
 
 test("GridNode - getCost", function () {
-    const graph1 = new Graph(
+    const grid = new Grid(
         [
             [1, 1, 1],
             [2, 1, 1],
@@ -170,9 +171,9 @@ test("GridNode - getCost", function () {
     )
 
     // Test straight neighbor
-    expect(graph1.grid[0][1].getCost(graph1.grid[0][0])).toBe(1)
+    expect(grid.grid[0][1].getCost(grid.grid[0][0])).toBe(1)
     // Test diagonal neighbor
-    expect(graph1.grid[1][1].getCost(graph1.grid[0][0])).toBe(1.41421)
+    expect(grid.grid[1][1].getCost(grid.grid[0][0])).toBe(1.41421)
     // Test diagonal neighbor with weight
-    expect(graph1.grid[2][2].getCost(graph1.grid[1][1])).toBe(2.82842)
+    expect(grid.grid[2][2].getCost(grid.grid[1][1])).toBe(2.82842)
 })

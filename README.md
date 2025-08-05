@@ -20,17 +20,16 @@ This is a improved and modernized fork of [bgrins/javascript-astar](https://gith
 
     ```javascript
     // Module import
-    import { AStar, Graph } from "javascript-astarf"
+    import { AStar, Grid } from "javascript-astarf"
 
-    // Create a new graph with a grid
-    // - Take note 0 = wall, 1 = walkable, higher than 1 makes it worse
-    const graph = new Graph([
+    // 0 = wall, 1 = walkable
+    const grid = new Grid([
         [1, 0],
         [1, 1],
     ])
 
     // Search for path
-    const result = AStar.search(graph, [0, 0], [1, 1])
+    const result = AStar.search(grid, [0, 0], [1, 1])
     // result.length == 2
     // result[0] == { x: 1, y: 0, weight: 1 }
     // result[1] == { x: 1, y: 1, weight: 1 }

@@ -1,12 +1,12 @@
 import { expect, test } from "vitest"
-import { AStar, Graph, GridNode } from "../src/astar.js"
+import { AStar, Grid, GridNode } from "../src/astar.js"
 
 test("AStar.search - Examples - Minimal", function () {
-    const graph = new Graph([
+    const grid = new Grid([
         [1, 0],
         [1, 1],
     ])
-    const result = AStar.search(graph, [0, 0], [1, 1]).map((r) => [r.x, r.y])
+    const result = AStar.search(grid, [0, 0], [1, 1]).map((r) => [r.x, r.y])
     expect(result).toEqual([
         [0, 1],
         [1, 1],
@@ -14,14 +14,14 @@ test("AStar.search - Examples - Minimal", function () {
 })
 
 test("AStar.search - Examples - Complex", function () {
-    const graph = new Graph([
+    const grid = new Grid([
         [1, 0, 0, 1, 1],
         [1, 1, 0, 1, 0],
         [0, 1, 1, 1, 1],
         [0, 1, 0, 0, 1],
         [0, 1, 1, 1, 1],
     ])
-    const result = AStar.search(graph, [0, 0], [4, 0]).map((r) => [r.x, r.y])
+    const result = AStar.search(grid, [0, 0], [4, 0]).map((r) => [r.x, r.y])
     expect(result).toEqual([
         [0, 1],
         [1, 1],
@@ -35,7 +35,7 @@ test("AStar.search - Examples - Complex", function () {
 })
 
 test("AStar.search - Examples - Diagonal", function () {
-    const graph = new Graph(
+    const grid = new Grid(
         [
             [1, 1, 1],
             [1, 1, 1],
@@ -43,7 +43,7 @@ test("AStar.search - Examples - Diagonal", function () {
         ],
         { diagonal: true }
     )
-    const result = AStar.search(graph, [0, 0], [2, 2]).map((r) => [r.x, r.y])
+    const result = AStar.search(grid, [0, 0], [2, 2]).map((r) => [r.x, r.y])
     expect(result).toEqual([
         [1, 1],
         [2, 2],
@@ -51,12 +51,12 @@ test("AStar.search - Examples - Diagonal", function () {
 })
 
 test("AStar.search - Examples - Closest", function () {
-    const graph = new Graph([
+    const grid = new Grid([
         [1, 0, 0],
         [1, 1, 0],
         [1, 1, 0],
     ])
-    const result = AStar.search(graph, [0, 0], [2, 2], { closest: true }).map(
+    const result = AStar.search(grid, [0, 0], [2, 2], { closest: true }).map(
         (r) => [r.x, r.y]
     )
     expect(result).toEqual([
@@ -67,11 +67,11 @@ test("AStar.search - Examples - Closest", function () {
 })
 
 test("AStar.search - Examples - Weights", function () {
-    const graph = new Graph([
+    const grid = new Grid([
         [1, 9, 1],
         [1, 1, 1],
     ])
-    const result = AStar.search(graph, [0, 0], [2, 0]).map((r) => [r.x, r.y])
+    const result = AStar.search(grid, [0, 0], [2, 0]).map((r) => [r.x, r.y])
     expect(result).toEqual([
         [0, 1],
         [1, 1],
@@ -81,13 +81,13 @@ test("AStar.search - Examples - Weights", function () {
 })
 
 test("AStar.search - Examples - Use grid nodes as start/end", function () {
-    const graph = new Graph([
+    const grid = new Grid([
         [1, 0],
         [1, 1],
     ])
-    const start = graph.grid[0][0]
-    const end = graph.grid[1][1]
-    const result = AStar.search(graph, start, end).map((r) => [r.x, r.y])
+    const start = grid.grid[0][0]
+    const end = grid.grid[1][1]
+    const result = AStar.search(grid, start, end).map((r) => [r.x, r.y])
     expect(result).toEqual([
         [0, 1],
         [1, 1],
@@ -97,11 +97,11 @@ test("AStar.search - Examples - Use grid nodes as start/end", function () {
 test("AStar.search - Examples - Typed result", function () {
     /** @returns {GridNode[]} */
     function findPath() {
-        const graph = new Graph([
+        const grid = new Grid([
             [1, 1],
             [0, 1],
         ])
-        return AStar.search(graph, [0, 0], [1, 1])
+        return AStar.search(grid, [0, 0], [1, 1])
     }
 
     const result = findPath()
